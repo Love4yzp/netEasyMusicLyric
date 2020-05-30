@@ -42,23 +42,31 @@ def buffer(id):
     return soup_json 
 
 def choose(data):
-    choose = int(input("\t输出功能选项\n\t1). 输出歌词\n\t2). 输出翻译歌词(仅当为外语歌曲或存在)\n\t3).输出可能的歌词并分类(擦缝？)\n\t4)输出文件\n\t任意). 放弃\n"))
-    if(1 == choose):  # 1). 输出歌词
+    choose =input("\t输出功能选项\n\t1). 输出歌词\n\t2). 输出翻译歌词(仅当为外语歌曲或存在)\n\t3).输出可能的歌词并分类(擦缝？)\n\t4)输出文件,并退出\n\t任意). 放弃\n")
+    if('1' == choose):  # 1). 输出歌词
         print(re.sub('(.\d+){3,}.','',data['lrc']['lyric']))
 
-    elif(2 == choose): # 2). 输出翻译歌词(仅当为外语歌曲或存在)
+    elif('2' == choose): # 2). 输出翻译歌词(仅当为外语歌曲或存在)
         """
         返回 zh-hans ,如果有的话
         """
-        print(re.sub('(.\d+){3,}.','',data['tlyric']['lyric']))
+        try:
+            print(re.sub('(.\d+){3,}.','',data['tlyric']['lyric']))
+        except:
+            print("\n>>> !不存在,选项 1) 即可\n\n")
+            
+        
 
-    elif(3 == choose):
+    elif('3' == choose):
         '''
         输出可能的歌词并分类(擦缝?)
         '''
-        print(data['lrc']['lyric']+data['tlyric']['lyric'])
+        try:
+            print(data['lrc']['lyric']+data['tlyric']['lyric'])
+        except :
+            print("\n>>> 没有数据 2, 无法进行\n")
 
-    elif(4 == choose):
+    elif('4' == choose):
         "输出所有的类型文件"
         if(not data['tlyric']['lyric']):
             with open("tmusci_lyric.txt",'w',encoding='utf8') as f:
